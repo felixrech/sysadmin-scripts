@@ -5,7 +5,7 @@ failed_tests = 0
 
 def print_check(b):
     if b:
-        print("\t[OK]")
+        print("\t\033[0;32m[OK]\033[0m")
     else:
         print("\t\033[0;31m[FAIL]\033[0m")
         global failed_tests
@@ -26,4 +26,4 @@ print_check(https_ip == tum_proxy_ip)
 if failed_tests == 0:
     print("\nAll tests passed!")
 else:
-    print("\n{0} tests failed!".format(failed_tests))
+    print("\n{0} test(s) failed!".format(failed_tests))
