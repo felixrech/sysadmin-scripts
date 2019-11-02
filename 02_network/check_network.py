@@ -1,3 +1,5 @@
+#!/usr/bin/env python3.7
+
 from sys import stdout
 from subprocess import run, Popen, PIPE
 
@@ -87,7 +89,7 @@ cond1 = "ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp spt:2
 cond2 = "ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:22" in in_tables
 print_check(cond1 and cond2)
 print_log("[FIREWALL] outgoing ssh allowed")
-print_check(get_process_returncode("ssh github.com") == 255)
+print_check(get_process_returncode("ssh -o StrictHostKeyChecking=no github.com") == 255)
 print_log("[FIREWALL] icmp allowed")
 cond1 = "ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0" in out_tables
 cond2 = "ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0" in in_tables
