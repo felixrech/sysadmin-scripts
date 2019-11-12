@@ -3,52 +3,17 @@
 from sys import stdout
 from subprocess import run, Popen, PIPE
 
+import sys
+sys.path.append('../99_helpers/')
+from test_helpers import print_log, print_check  # noqa # pylint: disable=import-error
+from test_helpers import print_test_summary  # noqa # pylint: disable=import-error
+from test_helpers import get_process_output, get_process_returncode  # noqa # pylint: disable=import-error
+
 own_ip = '192.168.10.1'
 team_test_ip = '192.168.10.2'
 team_router_ip = team_test_ip
 praktikum_test_ip = '192.168.178.9.1'
 proxy_ip = '131.159.0.2'
-
-failed_tests = 0
-
-
-def print_log(msg):
-    print(msg.ljust(40), end='...')
-    stdout.flush()
-
-
-def print_check(b):
-    if b:
-        print("\b\b\b\033[0;32m[OK]\033[0m")
-    else:
-        print("\b\b\b\033[0;31m[FAIL]\033[0m")
-        global failed_tests
-        failed_tests += 1
-
-
-def get_process_output(cmd):
-    process = run(cmd, capture_output=True, shell=True)
-    return process.stdout.decode('utf-8')
-
-
-def get_process_returncode(cmd):
-    process = run(cmd, capture_output=True, shell=True)
-    return process.returncode
-
-
-def run_parallel_output(output_cmd, other_cmd, other_input):
-    output_p = Popen(output_cmd, stdout=PIPE, stderr=PIPE, shell=True)
-    other_p = Popen(
-        other_cmd,
-        stdin=PIPE,
-        stdout=PIPE,
-        stderr=PIPE,
-        shell=True)
-    other_p.communicate(bytes(other_input, 'utf-8'))
-    other_p.terminate()
-    other_p.wait()
-    output_p.wait()
-    return output_p.stdout.read().decode('utf-8')
 
 
 # Check IP address
@@ -89,7 +54,8 @@ cond1 = "ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp spt:2
 cond2 = "ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:22" in in_tables
 print_check(cond1 and cond2)
 print_log("[FIREWALL] outgoing ssh allowed")
-print_check(get_process_returncode("ssh -o StrictHostKeyChecking=no github.com") == 255)
+cmd = "ssh -o StrictHostKeyChecking=no github.com"
+print_check(get_process_returncode(cmd) == 255)
 print_log("[FIREWALL] icmp allowed")
 cond1 = "ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0" in out_tables
 cond2 = "ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0" in in_tables
@@ -114,8 +80,4 @@ print_log("[PROXY] https proxy")
 https_ip = get_process_output(cmd.format('https'))
 print_check(https_ip == proxy_ip)
 
-# Print summary
-if failed_tests == 0:
-    print("\nAll tests passed!")
-else:
-    print("\n{0} test(s) failed!".format(failed_tests))
+print_test_summary()

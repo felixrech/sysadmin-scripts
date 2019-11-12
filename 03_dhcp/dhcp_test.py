@@ -1,31 +1,11 @@
+#!/usr/bin/env python3.7
+
 import re
-from sys import stdout
-from time import sleep
-from subprocess import Popen, PIPE
-
-failed_tests = 0
-
-
-def print_log(msg):
-    print(msg.ljust(40), end='...')
-    stdout.flush()
-
-
-def print_check(b):
-    if b:
-        print("\b\b\b\033[0;32m[OK]\033[0m")
-    else:
-        print("\b\b\b\033[0;31m[FAIL]\033[0m")
-        global failed_tests
-        failed_tests += 1
-    stdout.flush()
-
-
-def get_timeout_process_output(cmd, timeout):
-    process = Popen(cmd, stdout=PIPE, stderr=PIPE, shell=True)
-    sleep(timeout)
-    process.kill()
-    return process.stdout.read().decode('utf-8')
+import sys
+sys.path.append('../99_helpers/')
+from test_helpers import print_log, print_check  # noqa # pylint: disable=import-error
+from test_helpers import print_test_summary, print_test_critical_failure  # noqa # pylint: disable=import-error
+from test_helpers import get_timeout_process_output  # noqa # pylint: disable=import-error
 
 
 print("Warning: The first test will take 60 seconds to get dump of dhcp connections\n")
@@ -38,12 +18,14 @@ output = get_timeout_process_output(cmd, timeout=60)
 # Check whether DHCPACK from VM01 exists and get it
 seperator = '---------------------------------------------------------------------------'
 packets = output.split(seperator)
-regex = ".*\(8:0:27:b4:ff:be\) > (\d|\.)+ \(8:0:27:ee:9c:c1\)"
-exists_dhcp_ack = any(p for p in packets if re.search(regex, p) is not None and "2 (BOOTPREPLY)" in p)
+regex = r".*\(8:0:27:b4:ff:be\) > (\d|\.)+ \(8:0:27:ee:9c:c1\)"
+exists_dhcp_ack = any(p for p in packets if re.search(
+    regex, p) is not None and "2 (BOOTPREPLY)" in p)
 print_check(exists_dhcp_ack)
 if not exists_dhcp_ack:
-    print("Stopping tests prematurely, since other tests will fail")
-reply = next(p for p in packets if re.search(regex, p) is not None and "2 (BOOTPREPLY)" in p)
+    print_test_critical_failure()
+reply = next(p for p in packets if re.search(regex, p)
+             is not None and "2 (BOOTPREPLY)" in p)
 
 # Check whether dhcp server delivers all the required information
 print_log("Checking IP address assigned")
@@ -65,9 +47,4 @@ print_log("Checking routes specified")
 cond = "OPTION: 121 (  7) Classless Static Route    10c0a8c0a80a02" in reply
 print_check(cond)
 
-# Print summary
-if failed_tests == 0:
-    print("\nAll tests passed!")
-else:
-    print("\n{0} test(s) failed!".format(failed_tests))
-
+print_test_summary()
