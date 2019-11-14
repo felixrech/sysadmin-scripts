@@ -25,6 +25,15 @@ def print_check(condition):
     stdout.flush()
 
 
+def print_crit_check(condition):
+    """ Calls print_check and if condition failed
+        print_test_critical_failure
+    """
+    print_check(condition)
+    if not condition:
+        print_test_critical_failure()
+
+
 def print_test_summary():
     """ Print a summary of the tests conducted """
     global failed_tests
