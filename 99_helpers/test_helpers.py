@@ -1,5 +1,6 @@
-from sys import stdout, exit
+import re
 from time import sleep
+from sys import stdout, exit
 from subprocess import run, Popen, PIPE
 
 
@@ -71,3 +72,15 @@ def get_timeout_process_output(cmd, timeout):
     sleep(timeout)
     process.kill()
     return process.stdout.read().decode('utf-8')
+
+
+def filter_list_by_regex(l, pattern, group=None)
+    """ Compiles pattern and filters list down to matches.
+        If group is specified, only returns the specified group (arg = #)
+    """
+    r = re.compile(pattern)
+    filtered = list(filter(None, map(r.search, l)))
+    if group is not None:
+        filtered = list(map(lambda x: x.group(group), filtered))
+    return filtered
+
