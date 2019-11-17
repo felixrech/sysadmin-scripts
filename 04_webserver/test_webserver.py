@@ -124,9 +124,6 @@ access_files, access_logs = get_logs(access_log_path, access_log_name)
 error_files, error_logs = get_logs(error_log_path, error_log_name)
 print_log("Checking whether logrotate is active")
 print_check(len(access_files) == 2 and len(error_files) == 6)
-print_log("Checking whether old logs exist")
-# TODO: Implment old logs exist test
-print_check(False)
 
 
 print_test_summary()
