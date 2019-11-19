@@ -2,7 +2,7 @@
 
 import re
 import sys
-sys.path.append('../99_helpers/')
+sys.path.append(sys.path[0] + '/../99_helpers/')
 from test_helpers import print_log, print_check  # noqa # pylint: disable=import-error
 from test_helpers import print_test_summary, print_test_critical_failure  # noqa # pylint: disable=import-error
 from test_helpers import get_timeout_process_output  # noqa # pylint: disable=import-error

@@ -3,7 +3,7 @@
 import os
 import re
 import sys
-sys.path.append('../99_helpers/')
+sys.path.append(sys.path[0] + '/../99_helpers/')
 from test_helpers import filter_list_by_regex  # noqa # pylint: disable=import-error
 from test_helpers import print_log, print_check, print_crit_check  # noqa # pylint: disable=import-error
 from test_helpers import get_process_returncode, get_process_output  # noqa # pylint: disable=import-error

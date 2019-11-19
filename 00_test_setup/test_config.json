@@ -1,0 +1,35 @@
+{
+    "network": {
+        "week": "02",
+        "files": {
+            "02_network/check_network.py": [
+                "vm01"
+            ],
+            "test.py": [
+                "vm01"
+            ]
+        }
+    },
+    "dhcp-dns": {
+        "week": "03",
+        "files": {
+            "03_dhcp/dhcp_test.py": [
+                "vm01",
+                "vm02",
+                "vm03",
+                "vm04"
+            ]
+        }
+    },
+    "webserver": {
+        "week": "04",
+        "files": {
+            "04_webserver/test_webserver.py": [
+                "vm01",
+                "vm02",
+                "vm03",
+                "vm04"
+            ]
+        }
+    }
+}

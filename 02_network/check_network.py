@@ -4,7 +4,7 @@ from sys import stdout
 from subprocess import run, Popen, PIPE
 
 import sys
-sys.path.append('../99_helpers/')
+sys.path.append(sys.path[0] + '/../99_helpers/')
 from test_helpers import print_log, print_check  # noqa # pylint: disable=import-error
 from test_helpers import print_test_summary  # noqa # pylint: disable=import-error
 from test_helpers import get_process_output, get_process_returncode  # noqa # pylint: disable=import-error
