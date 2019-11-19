@@ -7,9 +7,9 @@ from subprocess import run, Popen, PIPE
 failed_tests = 0
 
 
-def print_log(msg):
+def print_log(msg, fill=40):
     """ Print msg as description of current test """
-    print(msg.ljust(40), end='...')
+    print(msg.ljust(fill), end='...')
     stdout.flush()
 
 
