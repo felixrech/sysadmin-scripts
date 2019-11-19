@@ -4,9 +4,6 @@
         "files": {
             "02_network/check_network.py": [
                 "vm01"
-            ],
-            "test.py": [
-                "vm01"
             ]
         }
     },

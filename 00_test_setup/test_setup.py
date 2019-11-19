@@ -38,7 +38,6 @@ for week in config:
             week,
             test_script),
         fill=75)
-    print("'''''\n" + test_script_content + "\n''''''")
     with open(test_script, 'w') as test_script_file:
         test_script_file.write(test_script_content)
     run("chmod +x {0}".format(test_script), shell=True)
