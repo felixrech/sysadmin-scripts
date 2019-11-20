@@ -114,7 +114,7 @@ _, access_logs = get_logs(access_log_path, access_log_name, filter_ips=True)
 print_check(len(access_logs) == 0)
 print_log("Checking IPs in error log")
 # Generating error to make sure error log isn't empty
-get_process_returncode(cmd.format(main_hostname + '/idontexist.filetype'))
+get_page(main_hostname + '/idontexist.filetype')
 _, error_logs = get_logs(error_log_path, error_log_name, filter_ips=True)
 print_check(len(error_logs) > 0)
 
