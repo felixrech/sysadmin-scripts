@@ -29,7 +29,7 @@ reply = next(p for p in packets if re.search(regex, p)
 
 # Check whether dhcp server delivers all the required information
 print_log("Checking IP address assigned")
-cond = "YIADDR: 192.168.10.1" in reply
+cond = "YIADDR: 192.168.10.201" in reply
 print_check(cond)
 print_log("Checking subnet mask specified")
 cond = "OPTION:   1 (  4) Subnet mask               255.255.255.0" in reply
