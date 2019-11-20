@@ -20,7 +20,7 @@ test_seperator = ("\nprintf \"\\n\\nPress a key to continue to next test\""
                   "&& read -n 1 -s && clear\n")
 
 # Read in the configuration file for which tests and helpers to install
-with open('test_config.json', 'r') as config_file:
+with open('tests_config.json', 'r') as config_file:
     config = json.load(config_file)
 
 
