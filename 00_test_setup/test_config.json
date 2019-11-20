@@ -1,15 +1,15 @@
 {
     "network": {
-        "week": "02",
-        "files": {
+        "script_name": "PSA_test02.sh",
+        "tests": {
             "02_network/check_network.py": [
                 "vm01"
             ]
         }
     },
     "dhcp-dns": {
-        "week": "03",
-        "files": {
+        "script_name": "PSA_test03.sh",
+        "tests": {
             "03_dhcp/dhcp_test.py": [
                 "vm01",
                 "vm02",
@@ -19,8 +19,8 @@
         }
     },
     "webserver": {
-        "week": "04",
-        "files": {
+        "script_name": "PSA_test04.sh",
+        "tests": {
             "04_webserver/test_webserver.py": [
                 "vm01",
                 "vm02",
