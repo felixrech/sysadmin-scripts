@@ -33,15 +33,7 @@
         "script_name": "PSA_test05.sh",
         "tests": {
             "05_database/test_database.py": [
-                "vm01",
-                "vm02",
-                "vm03",
-                "vm04"
-            ]
-        },
-        "helpers": {
-            "05_database/test_database_remote.py": [
-                "vm02"
+                "vm03"
             ]
         }
     }
