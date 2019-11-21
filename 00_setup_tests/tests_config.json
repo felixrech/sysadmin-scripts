@@ -22,10 +22,7 @@
         "script_name": "PSA_test04.sh",
         "tests": {
             "04_webserver/test_webserver.py": [
-                "vm01",
-                "vm02",
-                "vm03",
-                "vm04"
+                "vm01"
             ]
         }
     },
