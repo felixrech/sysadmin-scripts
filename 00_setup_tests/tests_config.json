@@ -10,7 +10,13 @@
     "dhcp-dns": {
         "script_name": "PSA_test03.sh",
         "tests": {
-            "03_dhcp/dhcp_test.py": [
+            "03_dhcp_dns/test_dhcp.py": [
+                "vm01",
+                "vm02",
+                "vm03",
+                "vm04"
+            ],
+            "03_dhcp_dns/test_dns.py": [
                 "vm01",
                 "vm02",
                 "vm03",
