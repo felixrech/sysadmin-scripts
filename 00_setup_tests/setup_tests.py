@@ -61,7 +61,8 @@ for week in config:
     print_log(log_msg, fill=75)
 
     # Install script
-    write_script(script_name, tests_to_install, test_seperator)
+    if len(tests_to_install) >= 1:
+        write_script(script_name, tests_to_install, test_seperator)
     print_check(True)
 
     # Some tests need helper, let's check whether this week needs one as well
