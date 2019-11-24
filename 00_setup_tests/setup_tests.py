@@ -77,6 +77,6 @@ for week in config:
                .format(len(helpers_to_install), week))
     print_log(log_msg, fill=75)
     for helper in helpers_to_install:
-        script_name = 'helpers/{0}.sh'.format(helper.split('/')[-1][:-3])
-        write_script(script_name, [helper, ], '\n')
+        cmd = "ln -s {0} /root/helpers/{1}"
+        run(cmd.format(helper, helper.split('/')[-1]), shell=True)
     print_check(True)
