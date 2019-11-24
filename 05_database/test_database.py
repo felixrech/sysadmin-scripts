@@ -3,6 +3,7 @@
 import sys
 import secrets
 import pymysql
+from subprocess import run
 sys.path.append(sys.path[0] + '/../99_helpers/')
 from test_helpers import filter_list_by_regex  # noqa # pylint: disable=import-error
 from test_helpers import print_log, print_check, print_crit_check  # noqa # pylint: disable=import-error
@@ -24,6 +25,7 @@ remote_host = '192.168.10.4'
 remote_db = 'test_db2'
 replication_user = 'replication'
 replication_host = '192.168.10.4'
+replication_ssh_host = 'vm4'
 
 localhost_string = localhost_user + '@localhost'
 remote_string = '{0}@{1}'.format(remote_user, remote_host)
@@ -99,6 +101,7 @@ with readonly_con.cursor() as read_cursor:
         print_log("Checking whether unexpected users exist", fill=log_fill)
         print_check(user_input in ['', 'y', 'yes', 'Y'])
 
+    # Test the permissions
     print_log(
         "Checking required permissions for localhost user",
         fill=log_fill)
@@ -138,6 +141,7 @@ with readonly_con.cursor() as read_cursor:
     print_check(len(grants) == 1)
 
 
+# Check whether write and consequent read work
 print_log("Checking database write and consequent read", fill=log_fill)
 test_token = generate_token(readonly_con)
 write_con = pymysql.connect(
@@ -161,3 +165,9 @@ with read_con.cursor() as read_cursor:
     print_check(test_token in tokens)
 
 print_test_summary()
+
+# Check replication server
+print("Now executing remote test of replication server:")
+cmd = ("ssh {0} \"python3.7 /root/helpers/test_replicate.py {1}\""
+       .format(replication_ssh_host, test_token))
+run(cmd, shell=True)
