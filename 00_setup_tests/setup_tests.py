@@ -3,7 +3,7 @@ import json
 from subprocess import run
 from itertools import compress
 
-sys.path.append('../99_helpers/')
+sys.path.append(sys.path[0] + '/../99_helpers/')
 from test_helpers import print_log, print_check, get_process_output  # noqa # pylint: disable=import-error
 
 
@@ -47,7 +47,20 @@ def write_script(name, files, seperator):
     run("chmod +x {0}".format(script_name), shell=True)
 
 
+def install_for_automated_testing(tests):
+    if len(tests) == 0:
+        return
+    print_log(("Installing {0} file(s) for automated testing"
+               .format(len(tests))), fill=75)
+    base = "/root/tests/"
+    for test in tests:
+        cmd = "ln -sf {0} {1}".format(test, base + test.split('_')[-1])
+        run(cmd, shell=True)
+    print_check(True)
+
+
 # TODO Set permissions of folder so only current user and root can access
+run("mkdir -p /root/tests", shell=True)
 run("mkdir -p /root/helpers/", shell=True)
 
 for week in config:
@@ -65,6 +78,9 @@ for week in config:
         write_script(script_name, tests_to_install, test_seperator)
     print_check(True)
 
+    # Install tests for automatic testing
+    install_for_automated_testing(tests_to_install)
+
     # Some tests need helper, let's check whether this week needs one as well
     if not 'helpers' in config[week].keys():
         continue
@@ -80,3 +96,6 @@ for week in config:
         cmd = "ln -s {0} /root/helpers/{1}"
         run(cmd.format(helper, helper.split('/')[-1]), shell=True)
     print_check(True)
+
+    # Install the helpers as tests for automatic testing
+    install_for_automated_testing(helpers_to_install)
