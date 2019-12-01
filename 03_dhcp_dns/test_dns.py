@@ -45,3 +45,5 @@ print_check(tum_proxy_ip in get_process_output(cmd.format(tum_proxy_dns)))
 print_log("Checking reverse lookup")
 records = get_process_output(cmd.format(team_ip))
 print_check("domain name pointer " + team_dns in records)
+
+print_test_summary()
