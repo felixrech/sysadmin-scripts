@@ -92,3 +92,15 @@ def filter_list_by_regex(l, pattern, group=None):
     if group is not None:
         filtered = list(map(lambda x: x.group(group), filtered))
     return filtered
+
+
+def get_page(url):
+    """ Uses curl to get the specified url
+        Curl options used are:
+         - Do not use proxy: --noproxy "*"
+         - Print only content: -s
+         - Accept all certificates: --insecure
+         - https protocol
+    """
+    cmd = "curl --noproxy \"*\" -s --insecure https://{0}".format(url)
+    return get_process_output(cmd)
