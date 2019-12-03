@@ -94,7 +94,7 @@ for week in config:
                .format(len(helpers_to_install), week))
     print_log(log_msg, fill=75)
     for helper in helpers_to_install:
-        cmd = "ln -s {0} /root/helpers/{1}"
+        cmd = "ln -sf {0} /root/helpers/{1}"
         run(cmd.format(helper, helper.split('/')[-1]), shell=True)
     print_check(True)
 
