@@ -74,6 +74,15 @@ def get_timeout_process_output(cmd, timeout):
     return process.stdout.read().decode('utf-8')
 
 
+def get_vm_name():
+    """
+    Returns the vm's name, e.g. 'vm01' or 'vm05'
+
+    :returns: vm's name (string)
+    """
+    return 'vm' + get_process_output('hostname')[-3:-1]
+
+
 def filter_list_by_regex(l, pattern, group=None):
     """ Compiles pattern and filters list down to matches.
         If group is specified, only returns the specified group (arg = #)

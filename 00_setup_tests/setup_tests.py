@@ -4,6 +4,7 @@ from subprocess import run
 from itertools import compress
 
 sys.path.append(sys.path[0] + '/../99_helpers/')
+from test_helpers import get_vm_name  # noqa # pylint: disable=import-error
 from test_helpers import print_log, print_check, get_process_output  # noqa # pylint: disable=import-error
 
 
@@ -11,7 +12,7 @@ from test_helpers import print_log, print_check, get_process_output  # noqa # py
 python_version = 'python3.7'
 
 # Hostname is vmXX where XX are the digits at the end of the Linux hostname
-hostname = 'vm' + get_process_output('hostname')[-3:-1]
+hostname = get_vm_name()
 # Get full path to sysadmin-scripts folder
 dir = get_process_output('cd .. && pwd')[:-1] + '/'
 # Between tests we want to ask the user whether they want to continue and
