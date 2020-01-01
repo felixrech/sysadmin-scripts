@@ -19,7 +19,7 @@ def setup():
 
     print("\nInstalling schema")
     # Read schema ldif and remove unnecessary lines
-    with open('tmpdir/cn=config/cn=schema/cn={1}student.ldif', 'r') as f:
+    with open('tmpdir/cn=config/cn=schema/cn={3}student.ldif', 'r') as f:
         ldif = f.read().splitlines()[5:-7]
     # Add some required lines
     ldif = ["dn: cn=student,cn=schema,cn=config",

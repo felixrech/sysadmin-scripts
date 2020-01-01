@@ -29,5 +29,5 @@ objectclass ( 1.3.9999.1.6
     DESC 'University student with matr. number, address, ...'
     SUP inetOrgPerson
     STRUCTURAL
-    MUST ( matrNr $ address $ cityPostalCode $ city )
-    MAY  ( phone $ gender $ dateOfBirth $ placeOfBirth $ nationality ) )
+    MUST ( matrNr $ street $ postalCode $ postalAddress )
+    MAY  ( telephoneNumber $ gender $ dateOfBirth $ placeOfBirth $ nationality ) )
