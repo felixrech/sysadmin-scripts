@@ -1,0 +1,4 @@
+dn: uid={username},ou=Students,dc=team10,dc=psa,dc=in,dc=tum,dc=de
+changetype: modify
+add: userCertificate;binary
+userCertificate;binary:< file://{pwd}/tmpdir/certs/{username}.crt.der
