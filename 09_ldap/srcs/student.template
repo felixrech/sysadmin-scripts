@@ -1,0 +1,19 @@
+# Adds a new student to organization "Students" - content in curly brackets will be formatted in python
+dn: uid={username},ou=Students,dc=team10,dc=psa,dc=in,dc=tum,dc=de
+objectClass: student
+objectClass: posixAccount
+matrNr: {matr_nr}
+cn: {first_name}
+sn: {last_name}
+phone: {phone}
+gender: {gender}
+dateOfBirth: {dob}
+placeOfBirth: {pob}
+nationality: {nationality}
+address: {address}
+cityPostalCode: {postal_code}
+city: {city}
+uid: {username}
+uidNumber: {uid}
+gidNumber: {gid}
+homeDirectory: {home_dir}

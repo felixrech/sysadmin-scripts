@@ -1,0 +1,10 @@
+# Adds a new person/POSIX user to organization "Praktikum" - content in curly brackets will be formatted in python
+dn: uid={username},ou=Team{team},ou=Praktikum,dc=team10,dc=psa,dc=in,dc=tum,dc=de
+objectClass: person
+objectClass: posixAccount
+cn: {first_name}
+sn: {last_name}
+uid: {username}
+uidNumber: {uid}
+gidNumber: {gid}
+homeDirectory: {home_dir}

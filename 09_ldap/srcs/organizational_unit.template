@@ -1,0 +1,5 @@
+# Creates a new organizational unit with a name formatted using python
+dn: ou={ou},{in_ou_complete}dc=team10,dc=psa,dc=in,dc=tum,dc=de
+objectClass: top
+objectClass: organizationalUnit
+ou: {ou}
