@@ -5,49 +5,29 @@ attributetype ( 1.3.9999.1.1
         SUBSTR caseIgnoreSubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
 attributetype ( 1.3.9999.1.2
-        NAME 'phone'
-        EQUALITY caseIgnoreMatch
-        SUBSTR caseIgnoreSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
-attributetype ( 1.3.9999.1.3
         NAME 'gender'
         EQUALITY caseIgnoreMatch
         SUBSTR caseIgnoreSubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
-attributetype ( 1.3.9999.1.4
+attributetype ( 1.3.9999.1.3
         NAME 'dateOfBirth'
         EQUALITY caseIgnoreMatch
         SUBSTR caseIgnoreSubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
-attributetype ( 1.3.9999.1.5
+attributetype ( 1.3.9999.1.4
         NAME 'placeOfBirth'
         EQUALITY caseIgnoreMatch
         SUBSTR caseIgnoreSubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
-attributetype ( 1.3.9999.1.6
+attributetype ( 1.3.9999.1.5
         NAME 'nationality'
         EQUALITY caseIgnoreMatch
         SUBSTR caseIgnoreSubstringsMatch
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
-attributetype ( 1.3.9999.1.7
-        NAME 'address'
-        EQUALITY caseIgnoreMatch
-        SUBSTR caseIgnoreSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
-attributetype ( 1.3.9999.1.8
-        NAME 'cityPostalCode'
-        EQUALITY caseIgnoreMatch
-        SUBSTR caseIgnoreSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
-attributetype ( 1.3.9999.1.9
-        NAME 'city'
-        EQUALITY caseIgnoreMatch
-        SUBSTR caseIgnoreSubstringsMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
-objectclass ( 1.3.9999.1.10
+objectclass ( 1.3.9999.1.6
     NAME 'student'
     DESC 'University student with matr. number, address, ...'
-    SUP person
+    SUP inetOrgPerson
     STRUCTURAL
     MUST ( matrNr $ address $ cityPostalCode $ city )
     MAY  ( phone $ gender $ dateOfBirth $ placeOfBirth $ nationality ) )

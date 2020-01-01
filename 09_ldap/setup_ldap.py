@@ -1,3 +1,4 @@
+import os
 from subprocess import run
 from common import get_template, mkdir_p, create_ldif, add_ldif
 
