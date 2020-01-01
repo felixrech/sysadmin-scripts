@@ -64,7 +64,7 @@ def add_new_user(user):
         'gid': new_user['gid'],
         'home_dir': new_user['home_dir']
     }
-    filename = 'users/{}.ldif'.format(new_user['username'])
+    filename = 'tmpdir/users/{}.ldif'.format(new_user['username'])
     create_ldif('student', user_info, filename)
 
     # Add ldif to server
@@ -115,7 +115,7 @@ def add_user_certificate(username, full_name):
 def add_existing_user(user):
     user['gid'] = 10025
     user['home_dir'] = '/home/' + user['username']
-    filename = 'users/{}.ldif'.format(user['username'])
+    filename = 'tmpdir/users/{}.ldif'.format(user['username'])
     create_ldif('existing_user', user, filename)
     print("Creating user {}:".format(user['username']))
     add_ldif(filename)
