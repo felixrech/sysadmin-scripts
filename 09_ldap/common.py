@@ -13,6 +13,8 @@ def get_template(key):
 def create_ldif(template, format_dict, filename):
     # Create folder if necessary
     mkdir_p(filename.split('/')[0])
+    if len(filename.split('/')) > 2:
+        mkdir_p(filename.split('/')[1])
     # Load ldif template, format and write it to file
     ldif = get_template(template)
     with open(filename, 'w') as f:
