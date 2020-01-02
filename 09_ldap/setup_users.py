@@ -24,7 +24,7 @@ def new_user_attributes(last_name):
     # (first 8 letters of last_name + 1/2/3/4/... if needed for uniqueness)
     usernames = get_list_user_attributes('uid')
     username = last_name[:8]
-    if username in usernames:
+    if username in usernames or username == 'root':
         i = 1
         while last_name[:8] + str(i) in usernames:
             i += 1
