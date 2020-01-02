@@ -1,4 +1,5 @@
 import os
+import shutil
 from subprocess import run
 
 
@@ -14,7 +15,7 @@ def create_ldif(template, format_dict, filename):
     # Create folder if necessary
     mkdir_p(filename.split('/')[0])
     if len(filename.split('/')) > 2:
-        mkdir_p(filename.split('/')[1])
+        mkdir_p('/'.join(filename.split('/')[0:2]))
     # Load ldif template, format and write it to file
     ldif = get_template(template)
     with open(filename, 'w') as f:
@@ -29,3 +30,7 @@ def add_ldif(filename):
 def mkdir_p(folder):
     if not os.path.exists(folder):
         os.makedirs(folder)
+
+
+def cleanup():
+    shutil.rmtree('tmpdir')

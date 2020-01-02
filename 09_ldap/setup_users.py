@@ -1,10 +1,9 @@
 import os
 import csv
-import diceware
 from json import load
 from subprocess import run
 from unidecode import unidecode
-from common import create_ldif, add_ldif
+from common import create_ldif, add_ldif, mkdir_p
 
 
 def get_new_users():
@@ -42,6 +41,33 @@ def new_user_attributes(last_name):
     return new_user
 
 
+def add_user_certificate(username, full_name):
+    # Generate passphrase and write it to file
+    mkdir_p('certs')
+    run("diceware -n 6 > certs/{}.passphrase".format(username), shell=True)
+    # Generate user RSA key
+    cmd = "openssl genrsa -aes256 -passout file:certs/{0}.passphrase -out certs/{0}.key 4096"
+    run(cmd.format(username), shell=True)
+    # Generate certificate config and write it to file
+    create_ldif('cnf', {'username': username, 'name': full_name},
+                'tmpdir/certs/{}.cnf'.format(username))
+    # Generate certificate signing request
+    cmd = "openssl req -new -key certs/{0}.key -passin file:certs/{0}.passphrase -config tmpdir/certs/{0}.cnf -out tmpdir/certs/{0}.csr"
+    run(cmd.format(username), shell=True)
+    # Sign certificate using CA
+    cmd = "openssl x509 -req -days 3650 -in tmpdir/certs/{0}.csr -passin file:/etc/ldap/ssl/team10-ca.passphrase -CA /etc/ldap/ssl/team10-ca.cert.pem -CAkey /etc/ldap/ssl/team10-ca.key.pem -CAserial /etc/ldap/ssl/team10-ca.cert.srl -out certs/{0}.crt"
+    run(cmd.format(username), shell=True)
+    # Convert certificate to LDAP usable format
+    cmd = "openssl x509 -inform pem -outform der -in certs/{0}.crt -out tmpdir/certs/{0}.crt.der"
+    run(cmd.format(username), shell=True)
+    # Generate ldif for change and execute it
+    filename = 'tmpdir/certs/{}.ldif'.format(username)
+    create_ldif('add_certificate_ldif',
+                {'username': username, 'pwd': os.getcwd()},
+                filename)
+    add_ldif(filename)
+
+
 def add_new_user(user):
     # Prepare some information bits for later
     new_user = new_user_attributes(user['Name'])
@@ -73,6 +99,10 @@ def add_new_user(user):
     # Specific user deletion: ldapdelete -w team10 -H ldapi:/// -D "cn=admin,dc=team10,dc=psa,dc=in,dc=tum,dc=de" "uid=mustermann,ou=Students,dc=team10,dc=psa,dc=in,dc=tum,dc=de"
     # Or complete organizational unit: ldapdelete -w team10 -H ldapi:/// -D "cn=admin,dc=team10,dc=psa,dc=in,dc=tum,dc=de" -x -r "ou=Students,dc=team10,dc=psa,dc=in,dc=tum,dc=de"
 
+    # Create user certificate and add it to LDAP
+    full_name = user_info['first_name'] + ' ' + user_info['last_name']
+    add_user_certificate(new_user['username'], full_name)
+
 
 def add_new_users():
     for user in get_new_users():
@@ -84,34 +114,6 @@ def get_existing_users():
         return load(f)
 
 
-def add_user_certificate(username, full_name):
-    # Generate passphrase and write it to file
-    passphrase = diceware.main(['n 6'])
-    with open('certs/{}.passphrase' + username, 'w') as f:
-        f.write(passphrase)
-    # Generate user RSA key
-    cmd = "openssl genrsa -aes256 -passout file:certs/{}.passphrase -out certs/{}.key 4096"
-    run(cmd.format(username), shell=True)
-    # Generate certificate config and write it to file
-    create_ldif('cnf', {'username': username, 'name': full_name},
-                'tmpdir/certs/{}.cnf'.format(username))
-    # Generate certificate signing request
-    cmd = "openssl req -new -key certs/{}.key -passin file:certs/{}.passphrase -config tmpdir/certs/{}.cnf -out tmpdir/certs/{}.csr"
-    run(cmd.format(username), shell=True)
-    # Sign certificate using CA
-    cmd = "openssl x509 -req -days 3650 -in tmpdir/certs/{}.csr -passin file:/etc/ldap/ssl/team10-ca.passphrase -CA /etc/ldap/ssl/team10-ca.cert.pem -CAkey /etc/ldap/ssl/team10-ca.key.pem -CAserial /etc/ldap/ssl/team10-ca.cert.srl -out certs/{}.crt"
-    run(cmd.format(username), shell=True)
-    # Convert certificate to LDAP usable format
-    cmd = "openssl x509 -inform pem -outform der -in certs/{}.crt -out tmpdir/certs/{}.crt.der"
-    run(cmd.format(username), shell=True)
-    # Generate ldif for change and execute it
-    filename = 'tmpdir/certs/{}.ldif'.format(username)
-    create_ldif('add_certificate_ldif',
-                {'username': username, 'pwd': os.getcwd()},
-                filename)
-    add_ldif(filename)
-
-
 def add_existing_user(user):
     user['gid'] = 10025
     user['home_dir'] = '/home/' + user['username']
@@ -119,7 +121,6 @@ def add_existing_user(user):
     create_ldif('existing_user', user, filename)
     print("Creating user {}:".format(user['username']))
     add_ldif(filename)
-    print("Creating certificate for user {}:".format(user['username']))
 
 
 def add_existing_users():
