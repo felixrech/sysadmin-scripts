@@ -3,6 +3,7 @@ import csv
 from json import load
 from subprocess import run
 from unidecode import unidecode
+from common import ldap_host, ldap_auth, ldap_dn
 from common import create_ldif, add_ldif, mkdir_p
 
 
@@ -117,15 +118,34 @@ def get_existing_users():
         return load(f)
 
 
-def add_existing_user(user):
+def set_user_password(username, ous, cp_to=None):
+    p = run("diceware -n 6", shell=True, capture_output=True)
+    pw = p.stdout.decode('utf-8')[:-1]
+    mkdir_p('pws')
+    with open('pws/{}.team10.ldap.pw'.format(username), 'w') as f:
+        f.write(pw + '\n')
+    if cp_to is not None:
+        cmd = "runuser -l {0} -c \"echo '{1}' > {2}{0}.team10.ldap.pw\""
+        run(cmd.format(username, pw, cp_to), shell=True)
+    identifier = ("uid={0},ou={1},dc=team10,dc=psa,dc=in,dc=tum,dc=de"
+                  .format(username, ',ou='.join(ous)))
+    cmd = ("ldappasswd {0} {1} {2} -x \"{3}\" -s {4}"
+           .format(ldap_host, ldap_auth, ldap_dn, identifier, pw))
+    run(cmd, shell=True)
+
+
+def add_existing_user(user, set_password=False):
     user['gid'] = 10025
     user['home_dir'] = '/home/' + user['username']
     filename = 'tmpdir/users/{}.ldif'.format(user['username'])
     create_ldif('existing_user', user, filename)
     print("Creating user {}:".format(user['username']))
     add_ldif(filename)
+    ous = ['Team' + str(user['team']), 'Praktikum']
+    set_user_password(user['username'], ous, user['home_dir'] + '/')
 
 
 def add_existing_users():
+    set_passwords = input("Set users passwords? y/N ") == 'y'
     for user in get_existing_users():
-        add_existing_user(user)
+        add_existing_user(user, set_passwords)

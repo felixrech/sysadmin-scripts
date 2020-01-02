@@ -5,6 +5,10 @@ from subprocess import run
 
 admin_pw = input("Please enter admin password: ")
 
+ldap_host = "-H ldapi:///"
+ldap_auth = "-w " + admin_pw
+ldap_dn = "-D \"cn=admin,dc=team10,dc=psa,dc=in,dc=tum,dc=de\""
+
 
 def get_template(key):
     with open('srcs/{}.template'.format(key), 'r') as f:
