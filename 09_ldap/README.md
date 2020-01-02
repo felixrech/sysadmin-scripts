@@ -4,10 +4,10 @@ This script will help you install/configure some parts of the LDAP setup. This i
 
 ## Requirements
 
-- First of all, this script requires Python in version 3.7 or higher and the pip utility (or another way to install python packages):
+- First of all, this script requires Python in version 3.7 or higher and the pip utility (or another way to install python packages), as well as diceware for generating passphrases:
 
     ```bash
-    apt install python3.7 python3-pip
+    apt install python3.7 python3-pip diceware
     ```
 
 - Install the `unidecode` python package which is used to filter out Umlaute and the likes from last names when creating usernames:
