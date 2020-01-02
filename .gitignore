@@ -1,6 +1,10 @@
 # Ignore the user name and ssh keys file for privacy reasons
 01_user-management/uids.json
 
+# Ignore the existing and new user files for privacy/copyright reasons
+09_ldap/srcs/existing_users.json
+09_ldap/srcs/students.csv
+
 # Ignore python caches and vscode files
 */__pycache__/
 .vscode/
