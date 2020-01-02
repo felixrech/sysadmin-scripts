@@ -142,7 +142,8 @@ def add_existing_user(user, set_password=False):
     print("Creating user {}:".format(user['username']))
     add_ldif(filename)
     ous = ['Team' + str(user['team']), 'Praktikum']
-    set_user_password(user['username'], ous, user['home_dir'] + '/')
+    if set_password:
+        set_user_password(user['username'], ous, user['home_dir'] + '/')
 
 
 def add_existing_users():
