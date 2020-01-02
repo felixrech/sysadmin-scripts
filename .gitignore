@@ -1,3 +1,6 @@
 # Ignore the user name and ssh keys file for privacy reasons
 01_user-management/uids.json
+
+# Ignore python caches and vscode files
 */__pycache__/
+.vscode/
