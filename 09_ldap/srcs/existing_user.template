@@ -2,6 +2,7 @@
 dn: uid={username},ou=Team{team},ou=Praktikum,dc=team10,dc=psa,dc=in,dc=tum,dc=de
 objectClass: person
 objectClass: posixAccount
+objectClass: shadowAccount
 cn: {first_name}
 sn: {last_name}
 uid: {username}

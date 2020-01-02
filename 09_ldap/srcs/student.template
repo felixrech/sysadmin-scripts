@@ -2,6 +2,7 @@
 dn: uid={username},ou=Students,dc=team10,dc=psa,dc=in,dc=tum,dc=de
 objectClass: student
 objectClass: posixAccount
+objectClass: shadowAccount
 matrNr: {matr_nr}
 cn: {first_name}
 sn: {last_name}
