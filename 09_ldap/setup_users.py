@@ -22,12 +22,13 @@ def new_user_attributes(last_name):
     last_name = unidecode(last_name.lower())
     # Get a new username
     # (first 8 letters of last_name + 1/2/3/4/... if needed for uniqueness)
-    usernames = get_list_user_attributes('uid')
+    usernames = get_list_user_attributes('uid') + ['root']
     username = last_name[:8]
-    if username in usernames or username == 'root':
+    if username in usernames:
         i = 1
         while last_name[:8] + str(i) in usernames:
             i += 1
+        username = last_name[:8] + str(i)
     new_user = {'username': username}
     # Get a new user uid (smallest free number over 2000)
     uids = list(map(int, get_list_user_attributes('uidNumber')))
@@ -68,7 +69,7 @@ def add_user_certificate(username, full_name):
     add_ldif(filename)
 
 
-def add_new_user(user):
+def add_new_user(user, add_certificate=False):
     # Prepare some information bits for later
     new_user = new_user_attributes(user['Name'])
 
@@ -100,13 +101,15 @@ def add_new_user(user):
     # Or complete organizational unit: ldapdelete -w team10 -H ldapi:/// -D "cn=admin,dc=team10,dc=psa,dc=in,dc=tum,dc=de" -x -r "ou=Students,dc=team10,dc=psa,dc=in,dc=tum,dc=de"
 
     # Create user certificate and add it to LDAP
-    full_name = user_info['first_name'] + ' ' + user_info['last_name']
-    add_user_certificate(new_user['username'], full_name)
+    if add_certificate:
+        full_name = user_info['first_name'] + ' ' + user_info['last_name']
+        add_user_certificate(new_user['username'], full_name)
 
 
 def add_new_users():
+    add_certificates = input("Generate user certificates? y/N ") == 'y'
     for user in get_new_users():
-        add_new_user(user)
+        add_new_user(user, add_certificates)
 
 
 def get_existing_users():
