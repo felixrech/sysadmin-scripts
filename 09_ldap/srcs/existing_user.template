@@ -8,4 +8,5 @@ sn: {last_name}
 uid: {username}
 uidNumber: {uid}
 gidNumber: {gid}
+loginShell: /bin/bash
 homeDirectory: {home_dir}

@@ -18,3 +18,4 @@ uid: {username}
 uidNumber: {uid}
 gidNumber: {gid}
 homeDirectory: {home_dir}
+mail: {username}@students.psa-team10.in.tum.de
