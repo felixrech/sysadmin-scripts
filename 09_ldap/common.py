@@ -5,7 +5,7 @@ from subprocess import run
 
 admin_pw = input("Please enter admin password: ")
 
-ldap_host = "-H ldapi:///"
+ldap_host = "-H ldaps://ldap.psa-team10.in.tum.de"
 ldap_auth = "-w " + admin_pw
 ldap_dn = "-D \"cn=admin,dc=team10,dc=psa,dc=in,dc=tum,dc=de\""
 
