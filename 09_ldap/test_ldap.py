@@ -1,8 +1,9 @@
 import os
 import sys
 sys.path.append(sys.path[0] + '/../99_helpers/')
-from test_helpers import print_log, print_check, print_crit_check  # noqa # pylint: disable=import-error
 from test_helpers import get_process_output  # noqa # pylint: disable=import-error
+from test_helpers import print_log, print_check, print_crit_check  # noqa # pylint: disable=import-error
+from test_helpers import print_test_summary  # noqa # pylint: disable=import-error
 
 # Configure the LDAP server used
 ldap_host = "ldaps://ldap.psa-team10.in.tum.de"
@@ -166,3 +167,5 @@ check_passwd()
 # Check anonymous bind permissions
 print_log("Checking anonymous bind permissions", fill=log_length)
 print_check(check_anonymous_bind())
+
+print_test_summary()
