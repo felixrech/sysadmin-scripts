@@ -12,10 +12,7 @@
         "tests": {
             "03_dhcp_dns/test_dhcp.py": [
                 "vm01",
-                "vm02",
-                "vm03",
-                "vm04",
-                "vm05"
+                "vm02"
             ],
             "03_dhcp_dns/test_dns.py": [
                 "vm01",
@@ -54,6 +51,14 @@
             ],
             "99_helpers/test_helpers.py": [
                 "vm04"
+            ]
+        }
+    },
+    "ldap": {
+        "script_name": "PSA_test09.sh",
+        "tests": {
+            "09_ldap/test_ldap.py": [
+                "vm01"
             ]
         }
     }
