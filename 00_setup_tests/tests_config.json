@@ -54,6 +54,28 @@
             ]
         }
     },
+    "fileserver": {
+        "script_name": "PSA_test07.sh",
+        "tests": {
+            "07_fileserver/test_fileserver.py": [
+                "vm06"
+            ]
+        },
+        "helpers": {
+            "07_fileserver/test_fileserver-website.py": [
+                "vm01"
+            ],
+            "07_fileserver/test_fileserver-database-master.py": [
+                "vm03"
+            ],
+            "07_fileserver/test_fileserver-database-slave.py": [
+                "vm04"
+            ],
+            "07_fileserver/test_fileserver-webapp.py": [
+                "vm05"
+            ]
+        }
+    },
     "ldap": {
         "script_name": "PSA_test09.sh",
         "tests": {
