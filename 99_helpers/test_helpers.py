@@ -4,6 +4,7 @@ from sys import stdout, exit
 from subprocess import run, Popen, PIPE
 
 
+passed_tests = 0
 failed_tests = 0
 global_fill = 0
 
@@ -31,6 +32,8 @@ def print_check(condition):
     """
     if condition:
         print("\b\b\b\033[0;32m[OK]\033[0m")
+        global passed_tests
+        passed_tests += 1
     else:
         print("\b\b\b\033[0;31m[FAIL]\033[0m")
         global failed_tests
@@ -50,10 +53,11 @@ def print_crit_check(condition):
 def print_test_summary():
     """ Print a summary of the tests conducted """
     global failed_tests
+    summary = " ({0}/{1})".format(passed_tests, passed_tests+failed_tests)
     if failed_tests == 0:
-        print("\nAll tests passed!")
+        print("\nAll tests passed!{}".format(summary))
     else:
-        print("\n{0} test(s) failed!".format(failed_tests))
+        print("\n{0} test(s) failed!{1}".format(failed_tests, summary))
 
 
 def print_test_critical_failure():
