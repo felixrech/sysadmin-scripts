@@ -5,10 +5,22 @@ from subprocess import run, Popen, PIPE
 
 
 failed_tests = 0
+global_fill = 0
+
+
+def set_log_length(length):
+    """
+    Sets the default log fill to given length.
+    """
+    global global_fill
+    global_fill = length
 
 
 def print_log(msg, fill=40):
     """ Print msg as description of current test """
+    global global_fill
+    if fill == 40 and global_fill > fill:
+        fill = global_fill
     print(msg.ljust(fill), end='...')
     stdout.flush()
 
