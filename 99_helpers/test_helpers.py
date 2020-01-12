@@ -90,6 +90,33 @@ def get_timeout_process_output(cmd, timeout):
     return process.stdout.read().decode('utf-8')
 
 
+def run_remote_test(vm, test_name, helper=True):
+    """
+    Executes a different test script remotely on another VM.
+    Prints either the output of the remote test or ssh-error message.
+
+    :param vm: name of the vm (string, e.g. 'vm01')
+    :param test_name: name of the test (string, e.g. 'ldap')
+    """
+    # Execute test_name on given vm
+    cmd = "ssh {0} \"python3.7 /root/helpers/{1}.py\" 2>&1"
+    cmd = cmd if helper else cmd.replace('helpers', 'tests')
+    process = run(cmd.format(vm, test_name), capture_output=True, shell=True)
+    if process.returncode == 255:
+        print_log("Remote test execution failed because of ssh error...")
+        print_check(False)
+    elif process.returncode == 0:
+        out = process.stdout.decode('utf-8').splitlines()
+        nums = out[-1][out[-1].find('(')+1:out[-1].find(')')].split('/')
+        global passed_tests, failed_tests
+        passed_tests += int(nums[0])
+        failed_tests += int(nums[1]) - int(nums[0])
+        print('\n'.join(out[:-2]))
+    else:
+        print_log("Remote test execution failed")
+        print_check(False)
+
+
 def get_vm_name():
     """
     Returns the vm's name, e.g. 'vm01' or 'vm05'
