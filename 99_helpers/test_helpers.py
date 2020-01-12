@@ -147,3 +147,16 @@ def get_page(url):
     """
     cmd = "curl --noproxy \"*\" -s --insecure https://{0}".format(url)
     return get_process_output(cmd)
+
+
+def exists_mount(src, to):
+    """
+    Checks whether a mount of given source exists to given destination using
+    parsed df -h output.
+
+    :param src: source (string, e.g. '192.168.10.6:/myfolder')
+    :param to: destination (string, e.g. '/mnt/myfolder')
+    :returns: boolean
+    """
+    mounts = get_process_output("df -h").splitlines()
+    return any([l.startswith(src) and l.endswith(to) for l in mounts])
