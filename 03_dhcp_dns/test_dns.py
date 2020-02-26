@@ -3,6 +3,7 @@
 import re
 import sys
 sys.path.append(sys.path[0] + '/../99_helpers/')
+from test_helpers import get_vm_name  # noqa # pylint: disable=import-error
 from test_helpers import print_log, print_check, print_crit_check  # noqa # pylint: disable=import-error
 from test_helpers import print_test_summary  # noqa # pylint: disable=import-error
 from test_helpers import get_process_output, get_process_returncode  # noqa # pylint: disable=import-error
@@ -17,7 +18,7 @@ tum_proxy_dns, tum_proxy_ip = 'proxy.in.tum.de.', '131.159.0.2'
 
 
 # First, check whether bind9 is even active if same VM
-if "inet " + server_ip + '/' in get_process_output("ip addr show"):
+if get_vm_name() == 'vm02':
     print_log("Checking bind9 active")
     cmd = "systemctl is-active --quiet bind9.service"
     print_crit_check(get_process_returncode(cmd) == 0)
