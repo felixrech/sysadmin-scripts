@@ -12,14 +12,24 @@
         "tests": {
             "03_dhcp_dns/test_dhcp.py": [
                 "vm01",
-                "vm02"
+                "vm03",
+                "vm04",
+                "vm05",
+                "vm06",
+                "vm07",
+                "vm08",
+                "vm09"
             ],
             "03_dhcp_dns/test_dns.py": [
                 "vm01",
                 "vm02",
                 "vm03",
                 "vm04",
-                "vm05"
+                "vm05",
+                "vm06",
+                "vm07",
+                "vm08",
+                "vm09"
             ]
         }
     },
