@@ -69,6 +69,17 @@
         "tests": {
             "07_fileserver/test_fileserver.py": [
                 "vm06"
+            ],
+            "07_fileserver/test_fileserver-samba.py": [
+                "vm01",
+                "vm02",
+                "vm03",
+                "vm04",
+                "vm05",
+                "vm06",
+                "vm07",
+                "vm08",
+                "vm09"
             ]
         },
         "helpers": {
@@ -83,17 +94,6 @@
             ],
             "07_fileserver/test_fileserver-webapp.py": [
                 "vm05"
-            ],
-            "07_fileserver/test_fileserver-samba.py": [
-                "vm01",
-                "vm02",
-                "vm03",
-                "vm04",
-                "vm05",
-                "vm06",
-                "vm07",
-                "vm08",
-                "vm09"
             ]
         }
     },
