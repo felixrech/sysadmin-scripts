@@ -10,7 +10,7 @@ set_log_length(50)
 src = '192.168.10.6:/mnt/fileserver-pool/services/database/slave'
 dst = '/var/lib/mysql'
 
-print_log("Checking mount for database slave")
+print_log("Checking mount for database slave (on VM4)")
 print_check(exists_mount(src, dst))
 
 print_test_summary()

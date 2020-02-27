@@ -8,6 +8,7 @@ from test_helpers import print_test_summary  # noqa # pylint: disable=import-err
 # Set the test_log length to 50 chars
 set_log_length(50)
 
+
 def check_hdds_size():
     def get_block_device_size(dev):
         # Get block device size in bytes
@@ -23,7 +24,8 @@ def check_hdds_size():
     print_check(len(devs) == 7)
     # Check whether no block device is larger than 2GiB
     print_log("Checking block devices sizes")
-    print_check(all(map(lambda x: x<=2, map(get_block_device_size, devs))))
+    print_check(all(map(lambda x: x <= 2, map(get_block_device_size, devs))))
+
 
 def check_fileserver_size_mount():
     # Get output of df -h and extract fileserver-pool line
@@ -34,7 +36,9 @@ def check_fileserver_size_mount():
     print_check(len(lines) > 0)
     # Check whether fileserver-pool line mentions a mount at /mnt/fileserver-pool
     print_log("Checking pool mounted")
-    print_crit_check(len(lines) > 0  and lines[0].endswith('/mnt/fileserver-pool'))
+    print_crit_check(len(lines) > 0 and lines[0].endswith(
+        '/mnt/fileserver-pool'))
+
 
 def check_remote_mounts():
     run_remote_test('vm1', 'fileserver-website')
@@ -42,7 +46,9 @@ def check_remote_mounts():
     run_remote_test('vm4', 'fileserver-database-slave')
     run_remote_test('vm5', 'fileserver-webapp')
 
+
 check_hdds_size()
 check_fileserver_size_mount()
 check_remote_mounts()
+
 print_test_summary()

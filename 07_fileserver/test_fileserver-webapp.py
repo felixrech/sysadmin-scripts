@@ -10,7 +10,7 @@ set_log_length(50)
 src = '192.168.10.6:/mnt/fileserver-pool/services/webapp/status-monitor'
 dst = '/mnt/status-monitor'
 
-print_log("Checking mount for webapp")
+print_log("Checking mount for webapp (on VM5)")
 print_check(exists_mount(src, dst))
 
 print_test_summary()

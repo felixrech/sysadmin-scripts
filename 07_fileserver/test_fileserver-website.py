@@ -10,11 +10,11 @@ set_log_length(50)
 src = '192.168.10.6:/mnt/fileserver-pool/services/website/{}'
 dst = 'var/www/{}'
 
-print_log("Checking mount for 1st website")
+print_log("Checking mount for 1st website (on VM1)")
 print_check(exists_mount(src.format('web1'), dst.format('web1')))
-print_log("Checking mount for 2nd website")
+print_log("Checking mount for 2nd website (on VM1)")
 print_check(exists_mount(src.format('web2'), dst.format('web2')))
-print_log("Checking mount for 3rd website")
+print_log("Checking mount for 3rd website (on VM1)")
 print_check(exists_mount(src.format('web3'), dst.format('web3')))
 
 print_test_summary()
