@@ -178,3 +178,46 @@ def read_config(item):
     with open('/root/tests/config.json', 'r') as f:
         config = json.load(f)
     return config[item]
+
+
+class Cursor(object):
+    """
+    Returns a database read-only cursor for use in with statements.
+
+    This is a read-only cursor, changes are not committed.
+
+    Usage:
+        with Cursor() as c:
+            c.execute(read_sql)
+    """
+
+    def __init__(self, host=read_config('SQL-host'), port=3306, user=read_config('SQL-user'),
+                 password=read_config('SQL-pw'), db=read_config('SQL-database')):
+        import pymysql
+        self.db = pymysql.connect(
+            host=host,
+            user=user,
+            password=password,
+            database=db)
+
+    def __enter__(self):
+        return self.db.cursor()
+
+    def __exit__(self, exc_type, exc_val, trace):
+        self.db.close()
+
+
+class WriteCursor(Cursor):
+    """
+    Returns a database cursor for use in with statements.
+
+    Will commit changes made using the cursor.
+
+    Usage:
+        with WriteCursor() as c:
+            c.execute(write_sql)
+    """
+
+    def __exit__(self, exc_type, exc_val, trace):
+        self.db.commit()
+        super().__exit__(exc_type, exc_val, trace)
