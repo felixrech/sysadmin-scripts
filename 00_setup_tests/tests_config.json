@@ -41,7 +41,11 @@
                 "vm02",
                 "vm03",
                 "vm04",
-                "vm05"
+                "vm05",
+                "vm06",
+                "vm07",
+                "vm08",
+                "vm09"
             ],
             "04_webserver/test_webserver-configuration.py": [
                 "vm01"
@@ -111,7 +115,15 @@
         "script_name": "PSA_test09.sh",
         "tests": {
             "09_ldap/test_ldap.py": [
-                "vm01"
+                "vm01",
+                "vm02",
+                "vm03",
+                "vm04",
+                "vm05",
+                "vm06",
+                "vm07",
+                "vm08",
+                "vm09"
             ]
         }
     }
