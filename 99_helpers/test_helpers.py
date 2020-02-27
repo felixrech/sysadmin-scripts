@@ -1,4 +1,5 @@
 import re
+import json
 from time import sleep
 from sys import stdout, exit
 from subprocess import run, Popen, PIPE
@@ -90,21 +91,30 @@ def get_timeout_process_output(cmd, timeout):
     return process.stdout.read().decode('utf-8')
 
 
-def run_remote_test(vm, test_name, helper=True):
+def run_remote_test(vm, test_name, helper=True, arg=None):
     """
     Executes a different test script remotely on another VM.
     Prints either the output of the remote test or ssh-error message.
 
     :param vm: name of the vm (string, e.g. 'vm01')
     :param test_name: name of the test (string, e.g. 'ldap')
+    :param helper: whether helper (True) or test (False), defaults to helper
+    :param arg: argument(s) to script, string
     """
-    # Execute test_name on given vm
-    cmd = "ssh {0} \"python3.7 /root/helpers/{1}.py\" 2>&1"
+    # Add space before arg if given, otherwise replace prep to format by nothing
+    arg = ' ' + arg if arg is not None else ''
+    # Define the command for remote script execution
+    cmd = "ssh {0} \"python3.7 /root/helpers/{1}.py{2}\" 2>&1"
+    cmd = cmd.format(vm, test_name, arg)
+    # If remote script is a test, change base path
     cmd = cmd if helper else cmd.replace('helpers', 'tests')
+    # Execute remote script on given vm and save output
     process = run(cmd.format(vm, test_name), capture_output=True, shell=True)
+    # Exit code 255 means an error in ssh, not the remote test
     if process.returncode == 255:
         print_log("Remote test execution failed because of ssh error...")
         print_check(False)
+    # If test exited successfully, print tests, add passed/failed to statistics
     elif process.returncode == 0:
         out = process.stdout.decode('utf-8').splitlines()
         nums = out[-1][out[-1].find('(')+1:out[-1].find(')')].split('/')
@@ -112,6 +122,7 @@ def run_remote_test(vm, test_name, helper=True):
         passed_tests += int(nums[0])
         failed_tests += int(nums[1]) - int(nums[0])
         print('\n'.join(out[:-2]))
+    # Remote test failed, print error message
     else:
         print_log("Remote test execution failed")
         print_check(False)
@@ -160,3 +171,10 @@ def exists_mount(src, to):
     """
     mounts = get_process_output("df -h").splitlines()
     return any([l.startswith(src) and l.endswith(to) for l in mounts])
+
+
+def read_config(item):
+    # TODO: document
+    with open('/root/tests/config.json', 'r') as f:
+        config = json.load(f)
+    return config[item]
