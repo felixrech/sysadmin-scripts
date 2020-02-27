@@ -191,14 +191,13 @@ class Cursor(object):
             c.execute(read_sql)
     """
 
-    def __init__(self, host=read_config('SQL-host'), port=3306, user=read_config('SQL-user'),
-                 password=read_config('SQL-pw'), db=read_config('SQL-database')):
+    def __init__(self, host=None, port=3306, user=None, pw=None, db=None):
         import pymysql
         self.db = pymysql.connect(
-            host=host,
-            user=user,
-            password=password,
-            database=db)
+            host=host if host is not None else read_config('SQL-host'),
+            user=user if user is not None else read_config('SQL-user'),
+            password=pw if pw is not None else read_config('SQL-pw'),
+            database=db if db is not None else read_config('SQL-database'))
 
     def __enter__(self):
         return self.db.cursor()
