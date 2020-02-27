@@ -80,6 +80,16 @@
                 "vm07",
                 "vm08",
                 "vm09"
+            ],
+            "07_fileserver/test_fileserver-autofs.py": [
+                "vm01",
+                "vm02",
+                "vm03",
+                "vm04",
+                "vm05",
+                "vm07",
+                "vm08",
+                "vm09"
             ]
         },
         "helpers": {
