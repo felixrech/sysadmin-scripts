@@ -1,5 +1,6 @@
 import os
 import sys
+
 sys.path.append(sys.path[0] + '/../99_helpers/')
 from test_helpers import get_process_output  # noqa # pylint: disable=import-error
 from test_helpers import print_log, print_check, print_crit_check  # noqa # pylint: disable=import-error
@@ -53,8 +54,8 @@ def checking_encrypted_communication():
 def check_organizational_units():
     # Get all the organizational units from the LDAP server
     cmd = ldap_search_base + \
-        "-LLL objectClass=organizationalUnit | grep dn: | cut -d ' ' -f2"
-    ous = get_process_output(cmd).split('\n')
+        "-b \"{0}\" -LLL objectClass=organizationalUnit | grep dn: | cut -d ' ' -f2"
+    ous = get_process_output(cmd.format(ldap_base_dn)).split('\n')
     # Check that both the 'Praktikum' and 'Students' organizational units exist
     if ((not any(ou for ou in ous if ou.startswith('ou=Praktikum'))) or
             (not any(ou for ou in ous if ou.startswith('ou=Students')))):
@@ -69,7 +70,7 @@ def check_organizational_units():
 
 def check_existing_users():
     # Check that the number of user in the Praktikum ou is correct
-    return len(get_uids('Praktikum')) == 24
+    return len(get_uids('Praktikum')) == 25
 
 
 def check_csv_users():
@@ -138,9 +139,9 @@ def check_passwd():
 
 def check_anonymous_bind():
     # Use anonymous bind to try and get uid & matrNr, then only matrNr
-    cmd = "ldapsearch -H {0} -x uid=root1 uid{1}"
-    out1 = get_process_output(cmd.format(ldap_host, ", matrNr"))
-    out2 = get_process_output(cmd.format(ldap_host, ''))
+    cmd = "ldapsearch -H {0} -b \"{1}\" -x uid=root1 uid{2}"
+    out1 = get_process_output(cmd.format(ldap_host, ldap_base_dn, ", matrNr"))
+    out2 = get_process_output(cmd.format(ldap_host, ldap_base_dn, ''))
     # The 2nd command should have worked and the 1st not
     return "uid: root1" in out2 and not "matrNr: 1938351754" in out1
 
