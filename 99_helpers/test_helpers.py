@@ -175,7 +175,7 @@ def exists_mount(src, to):
 
 def read_config(item):
     # TODO: document
-    with open('/root/tests/config.json', 'r') as f:
+    with open('/root/.config.json', 'r') as f:
         config = json.load(f)
     return config[item]
 
