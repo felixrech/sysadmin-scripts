@@ -68,6 +68,19 @@
             ]
         }
     },
+    "webapp": {
+        "script_name": "PSA_test06.sh",
+        "tests": {
+            "06_webapp/test_webapp.py": [
+                "vm05"
+            ]
+        },
+        "helpers": {
+            "06_webapp/test_webapp-available.py": [
+                "vm01"
+            ]
+        }
+    },
     "fileserver": {
         "script_name": "PSA_test07.sh",
         "tests": {
