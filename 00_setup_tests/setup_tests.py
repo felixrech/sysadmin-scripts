@@ -4,7 +4,7 @@ from subprocess import run
 from itertools import compress
 
 sys.path.append(sys.path[0] + '/../99_helpers/')
-from test_helpers import get_vm_name  # noqa # pylint: disable=import-error
+from test_helpers import get_vm_name, Cursor, WriteCursor  # noqa # pylint: disable=import-error
 from test_helpers import print_log, print_check, get_process_output, set_log_length  # noqa # pylint: disable=import-error
 
 
@@ -83,7 +83,39 @@ def install_helpers(helpers, week):
     print_check(True)
 
 
+def generate_sql():
+    with Cursor() as c:
+        c.execute('''select test from weeks;''')
+        tests_l = [test_l[0] for test_l in c.fetchall()]
+    tests = {}
+    for test in tests_l:
+        with Cursor() as c:
+            c.execute('''select vm from run_on where test=%s''', (test,))
+            tests[test] = [vm_l[0] for vm_l in c.fetchall()]
+    for week in config:
+        for test in config[week]['tests']:
+            name = extract_name(test)[:-3]
+            if name not in tests:
+                print("insert into weeks values ( \"{}\", {}, {} );"
+                      .format(name, week, 1))
+                with WriteCursor() as c:
+                    c.execute('''insert into weeks values ( %s, %s, %s );''',
+                              (name, week, 1))
+                tests[name] = []
+            for vm in config[week]['tests'][test]:
+                if vm not in tests[name]:
+                    print("insert into run_on values ( \"{}\", \"{}\" );"
+                          .format(name, vm))
+                    with WriteCursor() as c:
+                        c.execute('''insert into run_on values ( %s, %s );''',
+                                  (name, vm))
+
+
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "sql":
+        generate_sql()
+        sys.exit()
+
     # Setup folders
     run("mkdir -p /root/tests", shell=True)
     run("mkdir -p /root/helpers/", shell=True)
