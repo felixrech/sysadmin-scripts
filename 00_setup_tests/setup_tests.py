@@ -18,7 +18,7 @@ dir = get_process_output('cd .. && pwd')[:-1] + '/'
 # Between tests we want to ask the user whether they want to continue and
 # clean the screen
 test_seperator = ("\nprintf \"\\n\\nPress a key to continue to next test\""
-                  "&& read -n 1 -s && clear\n")
+                  "&& read -n 1 -s && printf \"\\n\\n\"\n")
 
 # Read in the configuration file for which tests and helpers to install
 with open('tests_config.json', 'r') as config_file:
@@ -53,7 +53,8 @@ def write_script(name, files, seperator):
     # Set script's name and content
     script_name = '/root/{0}'.format(name)
     files = list(map(extract_name, files))
-    calls = ["{0} /root/tests/{1}".format(python_version, file) for file in files]
+    calls = ["{0} /root/tests/{1}".format(python_version, file)
+             for file in files]
     script_content = seperator.join(calls)
     # Write the file and mark it executable
     with open(script_name, 'w') as script_file:
