@@ -53,7 +53,7 @@ def write_script(name, files, seperator):
     # Set script's name and content
     script_name = '/root/{0}'.format(name)
     files = list(map(extract_name, files))
-    calls = ["{0} /root/tests/{1}".format(python_version, file)
+    calls = ["{0} /root/tests/{1} -i".format(python_version, file)
              for file in files]
     script_content = seperator.join(calls)
     # Write the file and mark it executable

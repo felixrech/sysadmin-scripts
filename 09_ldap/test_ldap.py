@@ -1,8 +1,9 @@
 import os
 import sys
+from time import sleep
 
 sys.path.append(sys.path[0] + '/../99_helpers/')
-from test_helpers import get_process_output  # noqa # pylint: disable=import-error
+from test_helpers import get_process_output, get_vm_name, is_interactive  # noqa # pylint: disable=import-error
 from test_helpers import print_log, print_check, print_crit_check  # noqa # pylint: disable=import-error
 from test_helpers import print_test_summary  # noqa # pylint: disable=import-error
 
@@ -146,6 +147,8 @@ def check_anonymous_bind():
     return "uid: root1" in out2 and not "matrNr: 1938351754" in out1
 
 
+if not is_interactive():
+    sleep(int(get_vm_name()[:2]) * 15)
 # Check encrypted communication w/ server
 checking_encrypted_communication()
 # Check organizational units

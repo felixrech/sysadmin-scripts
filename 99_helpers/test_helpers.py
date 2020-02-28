@@ -1,4 +1,5 @@
 import re
+import sys
 import json
 from time import sleep
 from sys import stdout, exit
@@ -220,3 +221,7 @@ class WriteCursor(Cursor):
     def __exit__(self, exc_type, exc_val, trace):
         self.db.commit()
         super().__exit__(exc_type, exc_val, trace)
+
+
+def is_interactive():
+    return len(sys.argv) > 1 and sys.argv[1] == '-i'
