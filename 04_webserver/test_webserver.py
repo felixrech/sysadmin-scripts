@@ -3,6 +3,8 @@
 import os
 import re
 import sys
+import time
+
 sys.path.append(sys.path[0] + '/../99_helpers/')
 from test_helpers import get_page, filter_list_by_regex  # noqa # pylint: disable=import-error
 from test_helpers import print_log, print_check, print_crit_check  # noqa # pylint: disable=import-error
@@ -49,6 +51,7 @@ cond = (get_process_output(cmd.format(main_hostname))
         != get_process_output(cmd.format(alt_ip_hostname)))
 print_check(cond)
 
+
 # Check whether different hostnames return the correct keys
 log_msg = "Checking hostname honored ({0})"
 print_log(log_msg.format("main"))
@@ -63,9 +66,18 @@ print_check(alt_ip_key in alt_ip_page)
 print_log("Checking pages different")
 print_check(len(set([main_page, cname_page, alt_ip_page])) == 3)
 
-# Check whether CGI is run by user, not www-data
-print_log("Checking CGI user")
-# TODO: Implement CGI user test
-print_check(False)
+
+# Check content from users' homes
+print_log("Checking user home html")
+print_check('1582898002' in get_page('www.psa-team10.in.tum.de/~rech/'))
+
+print_log("Checking user home CGI: on demand")
+cont = get_page('www.psa-team10.in.tum.de/~rech/cgi-bin/time.py')
+print_check(int(cont) - int(time.time()) < 5)
+
+print_log("Checking user home CGI: user")
+cont = get_page('www.psa-team10.in.tum.de/~rech/cgi-bin/username.py')
+print_check('uid=10021; euid=10021' in cont)
+
 
 print_test_summary()
