@@ -28,7 +28,7 @@ test_token = sys.argv[1]
 
 
 # First, check whether mariadb is even active
-print_log("Checking replciation server active", fill=log_fill)
+print_log("Checking replication server active", fill=log_fill)
 cmd = "systemctl is-active --quiet mariadb.service"
 print_check(get_process_returncode(cmd) == 0)
 
