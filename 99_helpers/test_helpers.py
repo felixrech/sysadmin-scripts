@@ -149,15 +149,17 @@ def filter_list_by_regex(l, pattern, group=None):
     return filtered
 
 
-def get_page(url):
+def get_page(url, auth=None):
     """ Uses curl to get the specified url
         Curl options used are:
          - Do not use proxy: --noproxy "*"
          - Print only content: -s
          - Accept all certificates: --insecure
          - https protocol
+         - Authentication if specified: -u
     """
-    cmd = "curl --noproxy \"*\" -s --insecure https://{0}".format(url)
+    auth = '' if auth is None else ' -u ' + ':'.join(auth)
+    cmd = "curl --noproxy \"*\" -s --insecure{0} https://{1}".format(auth, url)
     return get_process_output(cmd)
 
 
