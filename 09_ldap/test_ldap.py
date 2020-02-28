@@ -148,7 +148,7 @@ def check_anonymous_bind():
 
 
 if not is_interactive():
-    sleep(int(get_vm_name()[:2]) * 15)
+    sleep(int(get_vm_name()[2:]) * 15)
 # Check encrypted communication w/ server
 checking_encrypted_communication()
 # Check organizational units
