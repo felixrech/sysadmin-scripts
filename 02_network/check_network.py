@@ -72,14 +72,17 @@ cond2 = ("tcp  --  0.0.0.0/0            0.0.0.0/0            tcp spt:80 NOTRACK"
 print_check(cond1 and cond2)
 
 # Check IP address using http and https (is proxy connected?)
-# Sourcing the bashrc happens automatically in interactive terminals - tests
-# might run non-interactively, though, so force it
-cmd = "source /root/.bashrc; curl -s {0}://ipecho.net/plain"
+# Sourcing the bashrc and setting of proxy environment variables happens
+# automatically in interactive terminals - tests might run non-interactively,
+# though, so set them manually
+with open('/etc/profile.d/proxy.sh', 'r') as f:
+    proxies = f.read().replace('export ', '').splitlines()
+cmd = "{0} curl -s {1}://ipecho.net/plain"
 print_log("[PROXY] http proxy")
-http_ip = get_process_output(cmd.format('http'))
+http_ip = get_process_output(cmd.format(proxies[0], 'http'))
 print_check(http_ip == proxy_ip)
 print_log("[PROXY] https proxy")
-https_ip = get_process_output(cmd.format('https'))
+https_ip = get_process_output(cmd.format(proxies[1], 'https'))
 print_check(https_ip == proxy_ip)
 
 print_test_summary()
