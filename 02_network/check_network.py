@@ -72,7 +72,9 @@ cond2 = ("tcp  --  0.0.0.0/0            0.0.0.0/0            tcp spt:80 NOTRACK"
 print_check(cond1 and cond2)
 
 # Check IP address using http and https (is proxy connected?)
-cmd = "curl -s {0}://ipecho.net/plain"
+# Sourcing the bashrc happens automatically in interactive terminals - tests
+# might run non-interactively, though, so force it
+cmd = "source /root/.bashrc; curl -s {0}://ipecho.net/plain"
 print_log("[PROXY] http proxy")
 http_ip = get_process_output(cmd.format('http'))
 print_check(http_ip == proxy_ip)
