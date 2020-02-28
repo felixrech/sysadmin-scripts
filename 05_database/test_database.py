@@ -5,7 +5,7 @@ import secrets
 import pymysql
 from subprocess import run
 sys.path.append(sys.path[0] + '/../99_helpers/')
-from test_helpers import filter_list_by_regex  # noqa # pylint: disable=import-error
+from test_helpers import filter_list_by_regex, run_remote_test  # noqa # pylint: disable=import-error
 from test_helpers import print_log, print_check, print_crit_check  # noqa # pylint: disable=import-error
 from test_helpers import get_process_returncode, get_process_output, read_config  # noqa # pylint: disable=import-error
 from test_helpers import print_test_summary, print_test_critical_failure  # noqa # pylint: disable=import-error
@@ -163,10 +163,6 @@ with read_con.cursor() as read_cursor:
     tokens = sql_query(read_cursor, sql, (test_token,))
     print_check(test_token in tokens)
 
-print_test_summary()
+run_remote_test('vm04', 'replicate', arg=test_token)
 
-# Check replication server
-print("Now executing remote test of replication server:")
-cmd = ("ssh {0} \"python3.7 /root/helpers/test_replicate.py {1}\""
-       .format(replication_ssh_host, test_token))
-run(cmd, shell=True)
+print_test_summary()
