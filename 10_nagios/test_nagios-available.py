@@ -11,6 +11,7 @@ auth = (read_config('nagios-username'),
         read_config('nagios-password'))
 
 print_log("Checking Nagios available in PSA network")
-print_check(secret in get_page('nagios.psa-team10.in.tum.de', auth=auth))
+page = get_page('nagios.psa-team10.in.tum.de/nagios/', auth=auth)
+print_check(secret in page)
 
 print_test_summary()

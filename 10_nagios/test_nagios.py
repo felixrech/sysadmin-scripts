@@ -17,7 +17,8 @@ rc = get_process_returncode("systemctl is-active --quiet nagios")
 print_check(rc == 0)
 
 print_log("Checking server available")
-print_check(secret in get_page('nagios.psa-team10.in.tum.de', auth=auth))
+page = get_page('nagios.psa-team10.in.tum.de/nagios/', auth=auth)
+print_check(secret in page)
 
 run_remote_test('vm01', 'nagios-available')
 
