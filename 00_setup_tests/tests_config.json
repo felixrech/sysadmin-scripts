@@ -139,5 +139,28 @@
                 "vm09"
             ]
         }
+    },
+    "nagios": {
+        "script_name": "PSA_test10.sh",
+        "tests": {
+            "10_nagios/test_nagios.py": [
+                "vm09"
+            ],
+            "10_nagios/test_nagios-available.py": [
+                "vm01",
+                "vm02",
+                "vm03",
+                "vm04",
+                "vm05",
+                "vm06",
+                "vm07",
+                "vm08"
+            ]
+        },
+        "helpers": {
+            "10_nagios/test_nagios-available.py": [
+                "vm01"
+            ]
+        }
     }
 }
