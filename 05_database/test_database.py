@@ -7,17 +7,15 @@ from subprocess import run
 sys.path.append(sys.path[0] + '/../99_helpers/')
 from test_helpers import filter_list_by_regex  # noqa # pylint: disable=import-error
 from test_helpers import print_log, print_check, print_crit_check  # noqa # pylint: disable=import-error
-from test_helpers import get_process_returncode, get_process_output  # noqa # pylint: disable=import-error
+from test_helpers import get_process_returncode, get_process_output, read_config  # noqa # pylint: disable=import-error
 from test_helpers import print_test_summary, print_test_critical_failure  # noqa # pylint: disable=import-error
 
 
 log_fill = 70
 readonly_user = 'readonly'
-# TODO: save password into a config file
-readonly_pwd = input("Please enter readonly user's password: ")
+readonly_pwd = read_config('database-readonly-pw')
 localhost_user = 'test_user1'
-# TODO: save password into a config file
-localhost_pwd = input("Please enter localhost user's password: ")
+localhost_pwd = read_config('database-testuser-pw')
 localhost_db = 'test_db1'
 localhost_test_table = 'test_table'
 remote_user = 'test_user2'
@@ -36,7 +34,8 @@ expected_users = set([localhost_string,
                       readonly_string,
                       replication_string,
                       'root@localhost',
-                      'mysql@localhost'])
+                      'mysql@localhost',
+                      'ts3@192.168.4.0/255.255.255.0'])
 
 
 def sql_query(c, sql, args=()):

@@ -3,15 +3,14 @@
 import sys
 import pymysql
 sys.path.append(sys.path[0] + '/../99_helpers/')
+from test_helpers import get_process_returncode, read_config  # noqa # pylint: disable=import-error
 from test_helpers import print_log, print_check, print_crit_check  # noqa # pylint: disable=import-error
-from test_helpers import get_process_returncode  # noqa # pylint: disable=import-error
 from test_helpers import print_test_summary  # noqa # pylint: disable=import-error
 
 
 log_fill = 70
 readonly_user = 'readonly'
-# TODO: save password into a config file
-readonly_pwd = input("Please enter readonly user's password: ")
+readonly_pwd = read_config('database-readonly-pw')
 test_db = 'test_db1'
 test_table = 'test_table'
 
