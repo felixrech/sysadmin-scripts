@@ -3,7 +3,15 @@
         "script_name": "PSA_test02.sh",
         "tests": {
             "02_network/check_network.py": [
-                "vm01"
+                "vm01",
+                "vm02",
+                "vm03",
+                "vm04",
+                "vm05",
+                "vm06",
+                "vm07",
+                "vm08",
+                "vm09"
             ]
         }
     },
