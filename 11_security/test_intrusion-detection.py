@@ -1,7 +1,9 @@
+import sys
 from subprocess import run
 from datetime import datetime
 
 print(f"Intrusion detection called on {datetime.now().isoformat()}")
+sys.stdout.flush()
 
 # rkhunter
 rkhunter = "rkhunter --update --cronjob --report-warnings-only --nocolors --skip-keypress"
@@ -19,12 +21,12 @@ else:
     print("rkhunter found no warnings")
 
 # Tripwire
-out = run("tripwire -m c -s", shell=True,
+out = run("/usr/bin/tripwire -m c -s", shell=True,
           capture_output=True).stdout.decode('utf-8')
 
 if not "Total violations found:  0" in out:
     print("Tripwire found violations, sending e-mail")
-    cmd = ("tripwire -m c -s | swaks "
+    cmd = ("/usr/bin/tripwire -m c -s | swaks "
            "--to \"rech@psa-team10.in.tum.de\" --from \"tripwire@psa-team10.in.tum.de\" "
            "-tls --server mail.psa-team10.in.tum.de "
            "--header \"Subject: [Tripwire] Violations found for $(hostname)\" "
