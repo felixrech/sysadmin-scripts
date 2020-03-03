@@ -11,23 +11,20 @@ iptables -A OUTPUT -o lo -j ACCEPT
 # Allow incoming SSH
 iptables -t filter -A INPUT -p tcp --dport ssh -j ACCEPT
 iptables -t filter -A OUTPUT -p tcp --sport ssh -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-# Allow outgoing SSH
-iptables -t filter -A OUTPUT -p tcp --dport ssh -j ACCEPT
-iptables -t filter -A INPUT -p tcp --sport ssh -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 # Allow incoming HTTP
 iptables -t filter -A INPUT -p tcp --dport http -j ACCEPT
 iptables -t filter -A OUTPUT -p tcp --sport http -j ACCEPT
 # Allow incoming HTTPS
 iptables -t filter -A INPUT -p tcp --dport https -j ACCEPT
 iptables -t filter -A OUTPUT -p tcp --sport https -j ACCEPT
-# Allow outgoing HTTP(S) (connections to/from proxy.in.tum.de)
+# Allow outgoing HTTP(S) (connections to proxy.in.tum.de)
 iptables -t filter -A INPUT -d proxy.in.tum.de -p tcp --sport 8080 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 iptables -t filter -A OUTPUT -s proxy.in.tum.de -p tcp --dport 8080 -j ACCEPT
-# Allow incoming from and outgoing to 192.168.0.0/16 (local praktikum network)
-iptables -t filter -A INPUT -s 192.168.0.0/16 -j ACCEPT
+# Allow incoming outgoing to 192.168.0.0/16 (local praktikum network)
+iptables -t filter -A INPUT -s 192.168.0.0/16 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 iptables -t filter -A OUTPUT -d 192.168.0.0/16 -j ACCEPT
-# Allow incoming from and outgoing to 131.159.0.0/16 (faculty network)
-iptables -t filter -A INPUT -s 131.159.0.0/16 -j ACCEPT
+# Allow incoming outgoing to 131.159.0.0/16 (faculty network)
+iptables -t filter -A INPUT -s 131.159.0.0/16 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 iptables -t filter -A OUTPUT -d 131.159.0.0/16 -j ACCEPT
 # Allow OS upgrades
 iptables -t filter -A INPUT -s de.archive.ubuntu.com -p tcp --sport http -j ACCEPT
