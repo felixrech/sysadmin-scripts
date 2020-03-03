@@ -70,9 +70,6 @@
         "helpers": {
             "05_database/test_replicate.py": [
                 "vm04"
-            ],
-            "99_helpers/test_helpers.py": [
-                "vm04"
             ]
         }
     },
