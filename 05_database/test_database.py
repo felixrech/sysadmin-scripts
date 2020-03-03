@@ -35,7 +35,8 @@ expected_users = set([localhost_string,
                       replication_string,
                       'root@localhost',
                       'mysql@localhost',
-                      'ts3@192.168.4.0/255.255.255.0'])
+                      'ts3@192.168.4.0/255.255.255.0',
+                      'backup@localhost'])
 
 
 def sql_query(c, sql, args=()):
