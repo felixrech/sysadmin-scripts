@@ -6,7 +6,7 @@ from os import listdir
 from datetime import datetime, timedelta
 sys.path.append(sys.path[0] + '/../99_helpers/')
 from test_helpers import get_process_returncode, read_config  # noqa # pylint: disable=import-error
-from test_helpers import set_log_length, print_log, print_check, print_crit_check  # noqa # pylint: disable=$
+from test_helpers import set_log_length, print_log, print_check, print_crit_check  # noqa # pylint: disable=import-error
 from test_helpers import print_test_summary  # noqa # pylint: disable=import-error
 
 
