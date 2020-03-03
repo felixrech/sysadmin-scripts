@@ -167,5 +167,22 @@
                 "vm01"
             ]
         }
+    },
+    "security": {
+        "script_name": "",
+        "tests": {},
+        "helpers": {
+            "11_security/test_intrusion-detection.py": [
+                "vm01",
+                "vm02",
+                "vm03",
+                "vm04",
+                "vm05",
+                "vm06",
+                "vm07",
+                "vm08",
+                "vm09"
+            ]
+        }
     }
 }
