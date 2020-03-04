@@ -118,7 +118,7 @@ def run_remote_test(vm, test_name, helper=True, arg=None):
     # If test exited successfully, print tests, add passed/failed to statistics
     elif process.returncode == 0:
         out = process.stdout.decode('utf-8').splitlines()
-        nums = out[-1][out[-1].find('(')+1:out[-1].find(')')].split('/')
+        nums = out[-1][out[-1].find(' (')+2:out[-1].find(')\n')].split('/')
         global passed_tests, failed_tests
         passed_tests += int(nums[0])
         failed_tests += int(nums[1]) - int(nums[0])
