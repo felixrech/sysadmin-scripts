@@ -34,7 +34,8 @@ def is_local_port_open(port, run_server=False):
     if run_server:
         t = threading.Thread(target=server)
         t.start()
-    cmd = f"ssh testing-vm nc -w5 -z 192.168.10.1 {port}"
+    ip = '192.168.10.' + get_vm_name()[2:]
+    cmd = f"ssh testing-vm nc -w5 -z {ip} {port}"
     cond = get_process_returncode(cmd) == 0
     return cond
 
