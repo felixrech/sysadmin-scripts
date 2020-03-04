@@ -41,10 +41,10 @@ def check_fileserver_size_mount():
 
 
 def check_remote_mounts():
-    run_remote_test('vm1', 'fileserver-website')
-    run_remote_test('vm3', 'fileserver-database-master')
-    run_remote_test('vm4', 'fileserver-database-slave')
-    run_remote_test('vm5', 'fileserver-webapp')
+    run_remote_test('vm01', 'fileserver-website')
+    run_remote_test('vm03', 'fileserver-database-master')
+    run_remote_test('vm04', 'fileserver-database-slave')
+    run_remote_test('vm05', 'fileserver-webapp')
 
 
 check_hdds_size()
