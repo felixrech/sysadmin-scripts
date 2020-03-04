@@ -21,12 +21,12 @@ else:
     print("rkhunter found no warnings")
 
 # Tripwire
-out = run("/usr/bin/tripwire -m c -s", shell=True,
+out = run("/usr/sbin/tripwire -m c -s", shell=True,
           capture_output=True).stdout.decode('utf-8')
 
 if not "Total violations found:  0" in out:
     print("Tripwire found violations, sending e-mail")
-    cmd = ("/usr/bin/tripwire -m c -s | swaks "
+    cmd = ("/usr/sbin/tripwire -m c -s | swaks "
            "--to \"rech@psa-team10.in.tum.de\" --from \"tripwire@psa-team10.in.tum.de\" "
            "-tls --server mail.psa-team10.in.tum.de "
            "--header \"Subject: [Tripwire] Violations found for $(hostname)\" "
