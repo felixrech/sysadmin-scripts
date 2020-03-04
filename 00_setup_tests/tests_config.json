@@ -126,12 +126,6 @@
             ],
             "07_fileserver/test_fileserver-webapp.py": [
                 "vm05"
-            ],
-            "07_fileserver/test_zfs-cap.py": [
-                "vm06"
-            ],
-            "07_fileserver/test_zfs-health.py": [
-                "vm06"
             ]
         }
     },
