@@ -25,9 +25,10 @@ def is_port_open(ip, port):
     return get_process_returncode(cmd) == 0
 
 
-def is_local_port_open(port, run_server=False):
+def is_local_port_open(port, run_server=True):
     def server():
-        process = Popen(f"exec nc -l {port}", shell=True)
+        # Capture output to remove Address alread in use warnings
+        process = Popen(f"exec nc -l {port}", shell=True, stderr=PIPE)
         sleep(30)
         process.kill()
         process.terminate()
@@ -86,9 +87,9 @@ print_log("[FIREWALL] policy drop")
 cond = "policy DROP" in in_tables and "policy DROP" in out_tables
 print_check(cond)
 print_log("[FIREWALL] Port 123 closed")
-print_check(not is_local_port_open(123, run_server=True))
+print_check(not is_local_port_open(123))
 print_log("[FIREWALL] Port 1234 closed")
-print_check(not is_local_port_open(1234, run_server=True))
+print_check(not is_local_port_open(1234))
 
 print_log("[FIREWALL] proxy connections possible")
 print_check(is_port_open('131.159.0.2', 8080))
