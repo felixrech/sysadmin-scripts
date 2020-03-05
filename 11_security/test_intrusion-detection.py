@@ -6,7 +6,7 @@ print(f"Intrusion detection called on {datetime.now().isoformat()}")
 sys.stdout.flush()
 
 # rkhunter
-rkhunter = "rkhunter --update --cronjob --report-warnings-only --nocolors --skip-keypress"
+rkhunter = "http_proxy=\"proxy.in.tum.de:8080\" rkhunter --update --cronjob --report-warnings-only --nocolors --skip-keypress"
 out = run(rkhunter, shell=True, capture_output=True).stdout.decode('utf-8')
 
 if out != "":
