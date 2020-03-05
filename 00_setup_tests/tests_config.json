@@ -129,6 +129,27 @@
             ]
         }
     },
+    "mail": {
+        "script_name": "PSA_test08.sh",
+        "tests": {
+            "08_mail/test_mail.py": [
+                "vm01",
+                "vm02",
+                "vm03",
+                "vm04",
+                "vm05",
+                "vm06",
+                "vm07",
+                "vm08",
+                "vm09"
+            ]
+        },
+        "helpers": {
+            "08_mail/test_mail-log.py": [
+                "vm07"
+            ]
+        }
+    },
     "ldap": {
         "script_name": "PSA_test09.sh",
         "tests": {
